@@ -1,11 +1,11 @@
 # Algodoo-stuff
-i do not know how to use github
+I am new to github and do not know how to use it. 
 
 # Scripts that I always use
-title says all.
+Title says all. I share my favorite scripts.
 
 # Breaking down slime
-I simulate rain using a glitch and the rain breaks down a piece of gum.
+I simulate rain using a collision glitch, which helps scatter water, and the rain breaks down a piece of gum.
 
 # Sparkler
 I found an interesting glitch that I cannot explain and it made a beautiful sparkler.
