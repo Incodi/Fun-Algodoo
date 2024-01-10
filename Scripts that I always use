@@ -1,4 +1,3 @@
-
 //Change to red when touched
 onCollide =
 (e)=>{
