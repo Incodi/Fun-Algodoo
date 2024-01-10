@@ -1,0 +1,145 @@
+
+//Change to red when touched
+onCollide =
+(e)=>{
+    color = [1.0, 0.0, 0.0, 1.0]
+}
+
+//Change other red.
+(e)=>{
+    e.other.color = [1.0, 0.0, 0.0, 1.0]
+}
+
+//Water touch
+OnCollide = 
+(e)=>{
+    e.other.Liquify
+}
+//This makes it that everything that the geometry touches turns into water.
+
+//geom Stabilizer
+inertiaMultiplier = (infinity)
+//This makes it so that the geometry cannot rotate, good for keeping things stable.
+
+//Ball maker
+OnCollide =
+(e)=>{
+    scene.addCircle({
+        radius := 0.1;
+        density := 2.0;
+        restitution := 0.5;
+        frition := 0.5;
+        pos := e.pos
+    })
+}
+//This makes it that whenever the geometry touches something it creates a circle.
+
+//Rainbow geom
+postStep =
+(e)=>{
+    colorHSVA = colorHSVA + [3, 0, 0, 0]
+}
+//This makes it so that the geometry always changes color.
+
+//Teleport other.
+
+onCollide =
+(e)=>{
+    e.other.pos = e.pos + [0.0, 8.0]
+}
+//This one specifically moves the other 8 up. Changing y into a negative number moves the other down. 
+//x works similar in moving the other left and right. Requires a lot of trial and error to get the correct spot.
+
+//Adhesive add circle by laser.
+onHitByLaser = 
+(e)=>{
+    scene.addCircle({
+        radius := 0.05;
+        density := 50.0;
+        adhesion := 1000;
+        restitution := 0;
+        friction := 100;
+        DrawCake := no;
+        pos := e.this.pos
+    })
+}
+//Uses addCircle only when hit by a laser. The circles have adhesion and no cake.
+
+//Make other lighter
+
+onCollide =
+
+(e)=>{
+    e.other.density = 0.0009
+}
+
+//and reset.
+onCollide =
+
+(e)=>{
+    e.other.density = 2
+}
+//This is used in marble races to move marbles up.
+
+Advanced:
+
+//First part of code for a shrink ray for circles. (laser)
+
+onLaserHit =
+
+(e)=>{
+    obj := "" + e.geom;
+    obj == "circle" ? {
+        e.geom.textureMatrix := e.geom.textureMatrix * [1.0 / _mult, 1.0 / _mult, 1.0, 1.0 / _mult, 1.0 / _mult, 1.0, 1.0, 1.0, 1.0];
+        e.geom.radius := e.geom.radius * _mult
+    } : {}
+}
+//This was confusing for me to make because I did not know how to deal with the textures, after a while of trial and error, I finally made it work with part 2.
+
+//Second part of code for a shrink ray for circles. (laser)
+
+postStep =
+
+(e)=>{
+    keys.isDown("1") ? {
+        _mult = 1.01;
+        maxRays = 1
+    } : {
+        keys.isDown("2") ? {
+            _mult = 0.99;
+            maxRays = 1
+        } : {
+            maxRays = 0
+        }
+    }
+}
+//1 makes the circle larger, 2 shrinks it. _mult is easy to understand, maxRays was hard to find.
+
+//Fire for a match.
+
+postStep =
+
+(e)=>{
+    Scene.addCircle({
+        pos := pos;
+        vel := rand.direction2D / 10;
+        timeToLive := 3;
+        collideSet := 0;
+        radius := {
+            0.1 * timeToLive ^ 0.2
+        };
+        density := 0.009;
+        colorHSVA := {
+            [60 - 30 * timeToLive, 1, 1, timeToLive / 2]
+        };
+        DrawCake := false
+    })
+}
+
+//Optional between density and colorHSVA, can make it cooler.
+AirFrictionMult := 0;
+
+//New circles spawn on top of the geom, velocity is random (I took code from somewhere I forgot), circle cannot collide with anything except water.
+//Circles have a lifespan of 3, they can float like a balloon, they are colorful and change color, they have no cake.
+//They shrink over time, and change color and transparency.
+
